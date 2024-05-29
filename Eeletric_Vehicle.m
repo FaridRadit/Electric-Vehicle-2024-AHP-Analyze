@@ -2,7 +2,7 @@
 data = readtable('cars.csv');
 
 % Display the first few rows to check if the data is loaded correctly
-disp((data));
+disp(data);
 
 % Extract relevant columns for normalization
 battery = data.Battery;
@@ -11,12 +11,12 @@ efficiency = data.Efficiency;
 fastcharge = data.Fastcharge;
 uk_price = data.UK_price_after_incentives;
 
-% Normalize the data
-battery_norm = (battery - min(battery)) / (max(battery) - min(battery));
-top_speed_norm = (top_speed - min(top_speed)) / (max(top_speed) - min(top_speed));
-efficiency_norm = (efficiency - min(efficiency)) / (max(efficiency) - min(efficiency));
-fastcharge_norm = (fastcharge - min(fastcharge)) / (max(fastcharge) - min(fastcharge));
-uk_price_norm = (uk_price - min(uk_price)) / (max(uk_price) - min(uk_price));
+% Normalize the data (each value divided by the sum of its column)
+battery_norm = battery / sum(battery);
+top_speed_norm = top_speed / sum(top_speed);
+efficiency_norm = efficiency / sum(efficiency);
+fastcharge_norm = fastcharge / sum(fastcharge);
+uk_price_norm = uk_price / sum(uk_price);
 
 % Define weights (example weights, these should be adjusted based on your criteria)
 weights = [0.23399, 0.09261, 0.1749, 0.11689, 0.38232];
@@ -38,4 +38,3 @@ sorted_data.Rank = (1:height(sorted_data))';
 
 % Display the top ranked vehicles
 disp(sorted_data(:, {'Brand', 'Model', 'Battery', 'Top_Speed', 'Efficiency', 'Fastcharge', 'UK_price_after_incentives', 'Score', 'Rank'}));
-
